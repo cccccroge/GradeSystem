@@ -1,0 +1,130 @@
+import java.util.Vector;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Scanner;
+
+public class GradeSystem {
+	
+	// member variables
+	public enum Status {
+		START,
+		SCORE,
+		FINISH
+	}
+	
+	Status status;
+	String current_id;
+	// member methods
+	public GradeSystem(){
+		status = Status.START;
+		loadGrade();
+	}
+	
+	Vector gradeVec = new Vector();
+	
+	private void loadGrade()
+	{
+		Path filePath = Paths.get("input.txt");
+		try {
+			Scanner fileSc = new Scanner(filePath);
+			while(fileSc.hasNextLine())
+			{
+				String line = fileSc.nextLine();
+				String[] strings = line.split(" ");
+				int[] grade = { Integer.parseInt(strings[3]),
+								Integer.parseInt(strings[4]),
+								Integer.parseInt(strings[5]),
+								Integer.parseInt(strings[6]),
+								Integer.parseInt(strings[7])};
+				Person p = new Person(strings[0], strings[1], grade);
+				gradeVec.add(p);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			System.out.println("Grade: " + (Person)gradeVec.firstElement().getId());
+		}
+	}
+	
+	public boolean run()
+	{
+		while(true) {
+			if (status == Status.START) {
+				showHintStart();
+				String cmd = Main.scanner.next();
+				handle_start(cmd);
+			} else if (status == Status.SCORE) {
+				showHintScore();
+				String cmd = Main.scanner.next();
+				handle_score(cmd);
+			}
+		}
+	}
+	
+	private void showHintStart()
+	{
+		System.out.println("enter [ID] or 'K' to kill");
+	}
+	
+	private void showHintScore()
+	{
+		System.out.println("enter command: \n"
+				+ "1: Grade\n"
+				+ "2: Rank\n"
+				+ "3: Average\n"
+				+ "4: Update weights\n"
+				+ "5: Exit\n"
+				+ "K: Kill");
+	}
+	
+	private void handle_start(String cmd)
+	{
+		switch(cmd) {
+		case "K":
+			kill();
+		default:
+			handle_id(cmd);
+		}
+	}
+	
+	private void kill()
+	{
+		System.exit(0);
+	}
+	
+	
+	private void handle_id(String str)
+	{
+		if (!checkID(str)) {
+			System.out.println("Wrong student ID. Please enter again.");
+		} else {
+			System.out.println("Id is: " + str);
+			current_id = str;
+			status = Status.SCORE;
+		}
+	}
+	
+	private boolean checkID(String id)
+	{
+		return true;
+	}
+	
+	private void handle_score(String cmd)
+	{
+		switch(cmd) {
+		case "K":
+			kill();
+		case "5":
+			status = Status.START;
+		case "1":
+			showScore();
+		}
+	}
+	private void showScore()
+	{
+		
+	}
+}

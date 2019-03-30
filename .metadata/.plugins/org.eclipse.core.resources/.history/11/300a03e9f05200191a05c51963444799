@@ -1,0 +1,12 @@
+
+public class Person {
+	
+	public Person(String i, String n, int[] a){
+		id = i;
+		name = n;
+		assignment = a;
+	}
+	String id;
+	String name;
+	int[] assignment;
+}

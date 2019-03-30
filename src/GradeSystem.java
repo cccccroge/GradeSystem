@@ -1,3 +1,10 @@
+import java.util.Vector;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Scanner;
+
 public class GradeSystem {
 	
 	// member variables
@@ -6,11 +13,40 @@ public class GradeSystem {
 		SCORE,
 		FINISH
 	}
+	
 	Status status;
+	Person current_person;
+	Vector gradeVec = new Vector();
 	
 	// member methods
 	public GradeSystem(){
 		status = Status.START;
+		current_person = null;
+		loadGrade();
+	}
+	
+	
+	private void loadGrade()
+	{
+		Path filePath = Paths.get("input.txt");
+		try {
+			Scanner fileSc = new Scanner(filePath, "utf-8");
+
+			while(fileSc.hasNextLine())
+			{
+				String line = fileSc.nextLine();
+				String[] strings = line.split(" ");
+				int[] grade = { Integer.parseInt(strings[2]),
+								Integer.parseInt(strings[3]),
+								Integer.parseInt(strings[4]),
+								Integer.parseInt(strings[5]),
+								Integer.parseInt(strings[6])};
+				Person p = new Person(strings[0], strings[1], grade);
+				gradeVec.add(p);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean run()
@@ -63,7 +99,7 @@ public class GradeSystem {
 	private void handle_id(String str)
 	{
 		if (!checkID(str)) {
-			System.out.println("Wrong student ID. Please enter again.");
+			System.out.println(str + " is a wrong student ID. Please enter again.");
 		} else {
 			System.out.println("Id is: " + str);
 			status = Status.SCORE;
@@ -72,7 +108,14 @@ public class GradeSystem {
 	
 	private boolean checkID(String id)
 	{
-		return true;
+		for(Object obj : gradeVec) {
+			if(((Person)obj).getId().equals(id))
+			{
+				current_person = (Person)obj;
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	private void handle_score(String cmd)
@@ -82,8 +125,17 @@ public class GradeSystem {
 			kill();
 		case "5":
 			status = Status.START;
-			
+		case "1":
+			showScore();
 		}
 	}
-	
+	private void showScore()
+	{
+		System.out.println(current_person.getName() + "'s grades are:" + 
+						   current_person.getAssignment()[0] + " " +
+						   current_person.getAssignment()[1] + " " +
+						   current_person.getAssignment()[2] + " " +
+						   current_person.getAssignment()[3] + " " +
+						   current_person.getAssignment()[4] + " ");
+	}
 }
