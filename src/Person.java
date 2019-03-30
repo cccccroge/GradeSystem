@@ -1,23 +1,31 @@
 
 public class Person {
 	
-	public Person(String i, String n, int[] a){
-		id = i;
-		name = n;
-		assignment = a;
-	}
-	
-	public String getId(){
-		return id;
-	}
-	public String getName(){
-		return name;
-	}
-	public int[] getAssignment(){
-		return assignment;
-	}
+	// Fields
 	String id;
 	String name;
-	int[] assignment;
+	int[] grades;
+	
+	// Constructor
+	public Person(String i, String n, int[] a)
+	{
+		id = i;
+		name = n;
+		grades = a;
+	}
+	
+	// Public Methods
+	public String getId()
+	{
+		return id;
+	}
+	public String getName()
+	{
+		return name;
+	}
+	public int[] getGrades()
+	{
+		return grades;
+	}
 	
 }

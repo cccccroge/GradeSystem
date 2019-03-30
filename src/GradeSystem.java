@@ -1,69 +1,48 @@
-import java.util.Vector;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Scanner;
 
 public class GradeSystem {
 	
-	// member variables
+	// Fields
 	public enum Status {
 		START,
 		SCORE,
 		FINISH
 	}
-	
 	Status status;
-	Person current_person;
-	Vector gradeVec = new Vector();
 	
-	// member methods
-	public GradeSystem(){
+	Person current_person;
+	GradeData grade_data;
+	
+	
+	// Constructor
+	public GradeSystem()
+	{
 		status = Status.START;
 		current_person = null;
-		loadGrade();
+		grade_data = new GradeData();
 	}
 	
-	
-	private void loadGrade()
-	{
-		Path filePath = Paths.get("input.txt");
-		try {
-			Scanner fileSc = new Scanner(filePath, "utf-8");
-
-			while(fileSc.hasNextLine())
-			{
-				String line = fileSc.nextLine();
-				String[] strings = line.split(" ");
-				int[] grade = { Integer.parseInt(strings[2]),
-								Integer.parseInt(strings[3]),
-								Integer.parseInt(strings[4]),
-								Integer.parseInt(strings[5]),
-								Integer.parseInt(strings[6])};
-				Person p = new Person(strings[0], strings[1], grade);
-				gradeVec.add(p);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
+	// Public Methods
 	public boolean run()
 	{
+		while(!grade_data.loadInput()) {
+			System.out.println("Failed to load grades input.\nFix setup and hit enter to try again.");
+			Main.scannerSysIn.nextLine();
+		}
+		
 		while(true) {
 			if (status == Status.START) {
 				showHintStart();
-				String cmd = Main.scanner.next();
-				handle_start(cmd);
+				String cmd = Main.scannerSysIn.next();
+				handleStartCmd(cmd);
 			} else if (status == Status.SCORE) {
 				showHintScore();
-				String cmd = Main.scanner.next();
-				handle_score(cmd);
+				String cmd = Main.scannerSysIn.next();
+				handleScoreCmd(cmd);
 			}
 		}
 	}
 	
+	// Private Methods
 	private void showHintStart()
 	{
 		System.out.println("enter [ID] or 'K' to kill");
@@ -71,7 +50,8 @@ public class GradeSystem {
 	
 	private void showHintScore()
 	{
-		System.out.println("enter command: \n"
+		System.out.println("Current ID: " + current_person.getId());
+		System.out.println("enter commands: \n"
 				+ "1: Grade\n"
 				+ "2: Rank\n"
 				+ "3: Average\n"
@@ -80,62 +60,44 @@ public class GradeSystem {
 				+ "K: Kill");
 	}
 	
-	private void handle_start(String cmd)
+	private void handleStartCmd(String cmd)
 	{
 		switch(cmd) {
 		case "K":
-			kill();
+			System.exit(0);
 		default:
-			handle_id(cmd);
+			registerId(cmd);
 		}
 	}
 	
-	private void kill()
+	private void registerId(String id)
 	{
-		System.exit(0);
-	}
-	
-	
-	private void handle_id(String str)
-	{
-		if (!checkID(str)) {
-			System.out.println(str + " is a wrong student ID. Please enter again.");
+		Person p = grade_data.getPersonById(id);
+		
+		if (p == null) {
+			System.out.println(id + " is a wrong student ID. Please enter again.");
 		} else {
-			System.out.println("Id is: " + str);
+			current_person = p;
 			status = Status.SCORE;
 		}
 	}
 	
-	private boolean checkID(String id)
-	{
-		for(Object obj : gradeVec) {
-			if(((Person)obj).getId().equals(id))
-			{
-				current_person = (Person)obj;
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	private void handle_score(String cmd)
+	private void handleScoreCmd(String cmd)
 	{
 		switch(cmd) {
 		case "K":
-			kill();
+			System.exit(0);
+		case "1":
+			showGrades();
 		case "5":
 			status = Status.START;
-		case "1":
-			showScore();
 		}
 	}
-	private void showScore()
+	private void showGrades()
 	{
-		System.out.println(current_person.getName() + "'s grades are:" + 
-						   current_person.getAssignment()[0] + " " +
-						   current_person.getAssignment()[1] + " " +
-						   current_person.getAssignment()[2] + " " +
-						   current_person.getAssignment()[3] + " " +
-						   current_person.getAssignment()[4] + " ");
+		String name = current_person.getName();
+		int[] grades = current_person.getGrades();
+		System.out.println(name + "'s grades are: " + grades[0]+ " " +
+				grades[1] + " " + grades[2] + " " + grades[3] + " " + grades[4]);
 	}
 }
