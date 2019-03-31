@@ -65,6 +65,7 @@ public class GradeSystem {
 		switch(cmd) {
 		case "K":
 			System.exit(0);
+			break;
 		default:
 			registerId(cmd);
 		}
@@ -87,10 +88,13 @@ public class GradeSystem {
 		switch(cmd) {
 		case "K":
 			System.exit(0);
+			break;
 		case "1":
 			showGrades();
+			break;
 		case "5":
 			status = Status.START;
+			break;
 		}
 	}
 	private void showGrades()
