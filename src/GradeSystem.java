@@ -34,10 +34,12 @@ public class GradeSystem {
 				showHintStart();
 				String cmd = Main.scannerSysIn.next();
 				handleStartCmd(cmd);
+				System.out.print("\n");
 			} else if (status == Status.SCORE) {
 				showHintScore();
 				String cmd = Main.scannerSysIn.next();
 				handleScoreCmd(cmd);
+				System.out.print("\n");
 			}
 		}
 	}
@@ -97,11 +99,24 @@ public class GradeSystem {
 			break;
 		}
 	}
+	
 	private void showGrades()
 	{
 		String name = current_person.getName();
 		int[] grades = current_person.getGrades();
-		System.out.println(name + "'s grades are: " + grades[0]+ " " +
-				grades[1] + " " + grades[2] + " " + grades[3] + " " + grades[4]);
+		int total = current_person.getWeightedGrade();
+		System.out.println(name + "'s grades are: \n" + 
+				"Lab1:\t" + formattedScore(grades[0])+ "\n" +
+				"Lab2:\t" + formattedScore(grades[1])+ "\n" +
+				"Lab3:\t" + formattedScore(grades[2])+ "\n" +
+				"Midterm exam:\t" + formattedScore(grades[3])+ "\n" +
+				"Final exam:\t" + formattedScore(grades[4]) + "\n" +
+				"Total grade:\t" + formattedScore(total));
+	}
+	
+	private String formattedScore(int score)
+	{
+		String s = Integer.toString(score);
+		return (score >= 60) ? s : (s+"*");
 	}
 }
