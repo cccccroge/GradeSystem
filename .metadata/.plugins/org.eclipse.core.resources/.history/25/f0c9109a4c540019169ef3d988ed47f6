@@ -116,7 +116,7 @@ public class GradeSystem {
 		System.out.println(name + "'s grades are:");
 		for(String key : map.keySet()) {
 			Integer grade = map.get(key);
-			System.out.println(key + ":\t" + formattedScore(grade));
+			System.out.println(key + ":\t" + grade);
 		}
 	}
 	

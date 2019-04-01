@@ -1,5 +1,6 @@
 import java.lang.Math;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.ArrayList;
 
 public class Person {
@@ -32,11 +33,6 @@ public class Person {
 		return name;
 	}
 	
-	public LinkedHashMap<String, Integer> getGradesLinkedMap()
-	{
-		return gradesLinkedMap;
-	}
-	
 	public int getWeightedGrade()
 	{
 		return weightedGrade;
@@ -45,12 +41,11 @@ public class Person {
 	// Private Methods
 	private void initGradesLinkedMap(int[] grades)
 	{
-		gradesLinkedMap = new LinkedHashMap<String, Integer>();
 		gradesLinkedMap.put("Lab1", grades[0]);
-		gradesLinkedMap.put("Lab2", new Integer(grades[1]));
-		gradesLinkedMap.put("Lab3", new Integer(grades[2]));
-		gradesLinkedMap.put("Midterm exam", new Integer(grades[3]));
-		gradesLinkedMap.put("Final exam", new Integer(grades[4]));
+		gradesLinkedMap.put("Lab2", grades[1]);
+		gradesLinkedMap.put("Lab3", grades[2]);
+		gradesLinkedMap.put("Midterm exam", grades[3]);
+		gradesLinkedMap.put("Final exam", grades[4]);
 	}
 	
 	private boolean evalWeightedGrade()

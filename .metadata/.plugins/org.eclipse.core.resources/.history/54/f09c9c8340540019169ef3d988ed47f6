@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 public class GradeSystem {
 	
@@ -98,10 +96,6 @@ public class GradeSystem {
 			break;
 		case "3":
 			showAverage();
-			break;
-		case "4":
-			updateWeights();
-			break;
 		case "5":
 			status = Status.START;
 			break;
@@ -111,13 +105,13 @@ public class GradeSystem {
 	private void showGrades()
 	{
 		String name = current_person.getName();
-		LinkedHashMap<String, Integer> map = current_person.getGradesLinkedMap();
-
-		System.out.println(name + "'s grades are:");
-		for(String key : map.keySet()) {
-			Integer grade = map.get(key);
-			System.out.println(key + ":\t" + formattedScore(grade));
-		}
+		int[] grades = current_person.getGrades();
+		System.out.println(name + "'s grades are: \n" + 
+				"Lab1:\t" + formattedScore(grades[0])+ "\n" +
+				"Lab2:\t" + formattedScore(grades[1])+ "\n" +
+				"Lab3:\t" + formattedScore(grades[2])+ "\n" +
+				"Midterm exam:\t" + formattedScore(grades[3])+ "\n" +
+				"Final exam:\t" + formattedScore(grades[4]) );
 	}
 	
 	private void showAverage()
@@ -125,11 +119,6 @@ public class GradeSystem {
 		String name = current_person.getName();
 		int average = current_person.getWeightedGrade();
 		System.out.println(name + "'s average is:\t" + average);
-	}
-	
-	private void updateWeights()
-	{
-		System.out.println("Current weights:");
 	}
 	
 	private String formattedScore(int score)

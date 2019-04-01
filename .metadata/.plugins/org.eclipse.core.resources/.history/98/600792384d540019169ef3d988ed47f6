@@ -45,8 +45,7 @@ public class Person {
 	// Private Methods
 	private void initGradesLinkedMap(int[] grades)
 	{
-		gradesLinkedMap = new LinkedHashMap<String, Integer>();
-		gradesLinkedMap.put("Lab1", grades[0]);
+		gradesLinkedMap.put("Lab1", new Integer(grades[0]));
 		gradesLinkedMap.put("Lab2", new Integer(grades[1]));
 		gradesLinkedMap.put("Lab3", new Integer(grades[2]));
 		gradesLinkedMap.put("Midterm exam", new Integer(grades[3]));

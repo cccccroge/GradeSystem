@@ -19,7 +19,7 @@ public class GradeData {
 	public boolean loadInput()
 	{
 		try {
-			Path path = Paths.get("input.txt") ;		
+			Path path = Paths.get("src/input.txt");
 			Scanner fileScanner = new Scanner(path, "utf-8");
 			while(fileScanner.hasNextLine())
 			{

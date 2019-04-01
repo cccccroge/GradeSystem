@@ -1,0 +1,77 @@
+import java.lang.Math;
+import java.util.HashMap;
+
+public class Person {
+	
+	// Fields
+	String id;
+	String name;
+	HashMap<String, Integer> gradesMap;
+	int weightedGrade;
+	
+	static float[] weights = { 0.2f, 0.2f, 0.2f, 0.2f, 0.2f };
+	
+	// Constructor
+	public Person(String i, String n, int[] a)
+	{
+		id = i;
+		name = n;
+		initGradesMap(a);
+		evalWeightedGrade();
+	}
+	
+	// Public Methods
+	public String getId()
+	{
+		return id;
+	}
+	
+	public String getName()
+	{
+		return name;
+	}
+	
+	public int[] getGradesList()
+	{
+		int g1 = gradesMap.get("Lab1");
+		int g2 = gradesMap.get("Lab2");
+		int g3 = gradesMap.get("Lab3");
+		int g4 = gradesMap.get("Midterm exam");
+		int g5 = gradesMap.get("Final exam");
+		int[] grades = { g1, g2, g3, g4, g5 };
+		return grades;
+	}
+	
+	public int getWeightedGrade()
+	{
+		return weightedGrade;
+	}
+	
+	// Private Methods
+	private void initGradesMap(int[] grades)
+	{
+		gradesMap = new HashMap<String, Integer>();
+		gradesMap.put("Lab1", grades[0]);
+		gradesMap.put("Lab2", grades[1]);
+		gradesMap.put("Lab3", grades[2]);
+		gradesMap.put("Midterm exam", grades[3]);
+		gradesMap.put("Final exam", grades[4]);
+	}
+	
+	private boolean evalWeightedGrade()
+	{
+		int[] grades = getGradesList();
+		if(weights.length != grades.length) {
+			weightedGrade = -1;
+			return false;
+		}
+		
+		float sum = 0;
+		for(int i = 0; i < grades.length; ++i) {
+			sum += (grades[i] * weights[i]);
+		}
+		weightedGrade = Math.round(sum);
+		return true;
+	}
+	
+}

@@ -111,13 +111,10 @@ public class GradeSystem {
 	private void showGrades()
 	{
 		String name = current_person.getName();
-		LinkedHashMap<String, Integer> map = current_person.getGradesLinkedMap();
-
+		int[] grades = current_person.getGradesList();
+		ArrayList<Integer> grades = new ArrayList<Integer>(gradesLinkedMap.values());
 		System.out.println(name + "'s grades are:");
-		for(String key : map.keySet()) {
-			Integer grade = map.get(key);
-			System.out.println(key + ":\t" + formattedScore(grade));
-		}
+		for(String key : gradesLinkedMap.)
 	}
 	
 	private void showAverage()
