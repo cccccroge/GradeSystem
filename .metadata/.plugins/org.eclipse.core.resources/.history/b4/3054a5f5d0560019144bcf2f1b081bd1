@@ -1,0 +1,68 @@
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class GradeData {
+
+	// Fields
+	ArrayList<Student> personList;
+	
+	// Constructor
+	public GradeData()
+	{
+		personList = new ArrayList<Student>();
+	}
+	
+	// Public Methods
+	public boolean loadInput()
+	{
+		try {
+			Path path = Paths.get("input.txt") ;		
+			Scanner fileScanner = new Scanner(path, "utf-8");
+			while(fileScanner.hasNextLine())
+			{
+				String[] strings = fileScanner.nextLine().split(" ");
+				int[] grade = { Integer.parseInt(strings[2]), Integer.parseInt(strings[3]),
+						Integer.parseInt(strings[4]), Integer.parseInt(strings[5]), Integer.parseInt(strings[6])};
+				Student p = new Student(strings[0], strings[1], grade);
+				personList.add(p);
+			}
+			
+			fileScanner.close();
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public Student getPersonById(String id)
+	{
+		if(!isIdValid(id)) {
+			return null;
+		}
+		
+		for(Object obj : personList) {
+			if(((Student)obj).getId().equals(id)) {
+				return (Student)obj;
+			}
+		}
+		
+		return null;
+	}
+	
+	// Private Methods
+	private boolean isIdValid(String id)
+	{
+		if (!Main.isDigits(id)) {
+			return false;
+		} else if (id.length() != 9) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+}

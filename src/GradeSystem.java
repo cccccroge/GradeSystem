@@ -1,25 +1,22 @@
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 public class GradeSystem {
 	
 	// Fields
-	public enum Status {
+	private enum Status {
 		START,
 		SCORE,
 		FINISH
 	}
-	Status status;
+	private Status status;
 	
-	Person current_person;
-	GradeData grade_data;
-	
+	private Student current_student;
+	private GradeData grade_data;
 	
 	// Constructor
 	public GradeSystem()
 	{
 		status = Status.START;
-		current_person = null;
+		current_student = null;
 		grade_data = new GradeData();
 	}
 	
@@ -31,31 +28,41 @@ public class GradeSystem {
 			Main.scannerSysIn.nextLine();
 		}
 		
+		grade_data.evalRanks();
+		
 		while(true) {
+			System.out.flush();
 			if (status == Status.START) {
 				showHintStart();
 				String cmd = Main.scannerSysIn.next();
 				handleStartCmd(cmd);
-				System.out.print("\n");
 			} else if (status == Status.SCORE) {
 				showHintScore();
 				String cmd = Main.scannerSysIn.next();
 				handleScoreCmd(cmd);
-				System.out.print("\n");
 			}
+			System.out.print("\n");
 		}
 	}
 	
 	// Private Methods
 	private void showHintStart()
 	{
-		System.out.println("enter [ID] or 'K' to kill");
+		System.out.println("******************************\n" 
+						 + "Fantastic Console Grade System\n" 
+						 + "******************************");
+		System.out.println("Enter commands:");
+		System.out.println("[ID]: a 9-digits number\n" + 
+						   "K: Kill the program");
 	}
 	
 	private void showHintScore()
 	{
-		System.out.println("Current ID: " + current_person.getId());
-		System.out.println("enter commands: \n"
+		System.out.println("********************************\n" 
+						 + "Current inspecting ID: " 
+						 + current_student.getId() + "\n"  
+						 + "********************************");
+		System.out.println("Enter commands: \n"
 				+ "1: Grade\n"
 				+ "2: Rank\n"
 				+ "3: Average\n"
@@ -67,6 +74,7 @@ public class GradeSystem {
 	private void handleStartCmd(String cmd)
 	{
 		switch(cmd) {
+		case "k":
 		case "K":
 			System.exit(0);
 			break;
@@ -75,32 +83,26 @@ public class GradeSystem {
 		}
 	}
 	
-	private void registerId(String id)
-	{
-		Person p = grade_data.getPersonById(id);
-		
-		if (p == null) {
-			System.out.println(id + " is a wrong student ID. Please enter again.");
-		} else {
-			current_person = p;
-			status = Status.SCORE;
-		}
-	}
-	
 	private void handleScoreCmd(String cmd)
 	{
 		switch(cmd) {
+		case "k":
 		case "K":
 			System.exit(0);
 			break;
 		case "1":
 			showGrades();
 			break;
+		case "2":
+			showRank();
+			break;
 		case "3":
 			showAverage();
 			break;
 		case "4":
 			updateWeights();
+			grade_data.updateWeightedGrades();
+			grade_data.evalRanks();
 			break;
 		case "5":
 			status = Status.START;
@@ -110,31 +112,120 @@ public class GradeSystem {
 	
 	private void showGrades()
 	{
-		String name = current_person.getName();
-		LinkedHashMap<String, Integer> map = current_person.getGradesLinkedMap();
-
+		String name = current_student.getName();
+		int[] g = current_student.getGrades();
+		String[] s = Student.getSubjects();
+		
 		System.out.println(name + "'s grades are:");
-		for(String key : map.keySet()) {
-			Integer grade = map.get(key);
-			System.out.println(key + ":\t" + formattedScore(grade));
+		for(int i = 0; i < g.length; ++i) {	
+			System.out.println(s[i] + ":\t" + formattedScore(g[i]));
 		}
 	}
 	
 	private void showAverage()
 	{
-		String name = current_person.getName();
-		int average = current_person.getWeightedGrade();
+		String name = current_student.getName();
+		int average = current_student.getWeightedGrade();
 		System.out.println(name + "'s average is:\t" + average);
+	}
+	
+	private void showRank()
+	{
+		String name = current_student.getName();
+		int rank = current_student.getRank();
+		System.out.println(name + "'s rank is:\t" + rank);
 	}
 	
 	private void updateWeights()
 	{
-		System.out.println("Current weights:");
+		while(true) {
+			System.out.flush();
+			System.out.println("Current weights:");
+			printWeights(Student.getWeights());
+			
+			System.out.println("Enter new weights:");
+			float[] new_weights = readWeights();
+			
+			System.out.println("Confirm new weights:");
+			printWeights(new_weights);
+			System.out.print("Are the weights above correct? (y/n)\t");
+			String cmd = Main.scannerSysIn.next();
+			if(cmd.equals("Y") || cmd.equals("y")) {
+				Student.setWeights(new_weights);
+				break;
+			}
+		}
+	}
+	
+	private void registerId(String _str)
+	{
+		String str = _str;
+		Student s = grade_data.getStudentById(str);
+		while(s == null) {
+			System.out.println(str + " is a wrong student ID. Please enter again.");
+			str = Main.scannerSysIn.next();
+			s = grade_data.getStudentById(str);
+		}
+		current_student = s;
+		status = Status.SCORE;
 	}
 	
 	private String formattedScore(int score)
 	{
 		String s = Integer.toString(score);
 		return (score >= 60) ? s : (s+"*");
+	}
+	
+	private void printWeights(float[] _weights)
+	{
+		String[] subjects = Student.getSubjects();
+		for(int i = 0; i < _weights.length; ++i) {
+			System.out.println(subjects[i] + "\t" + _weights[i]*100 + "%");
+		}
+	}
+	
+	private float[] readWeights()
+	{
+		float[] weights ={ -1, -1, -1, -1, -1 };
+		// repeat read process until weights is valid
+		while(true) {
+			String[] s = Student.getSubjects();
+			// each subject's weight
+			for(int i = 0; i < s.length; ++i) {
+				System.out.print(s[i] + ":\t");
+				String str = "";
+				while(!Main.isDigits(str)) {
+					str = Main.scannerSysIn.next();
+				}
+				weights[i] = Integer.parseInt(str) / 100.0f;
+			}
+			if(!isWeightsValid(weights)) {
+				System.out.println("Invalid weights. Enter again:");
+			} else if(!isWeightsDifferent(weights)){
+				System.out.println("Same weights as before. Enter again:");
+			} else {
+				break;
+			}
+		}
+		
+		return weights;
+	}
+	
+	private boolean isWeightsValid(float[] _weights)
+	{
+		if(_weights.length != Student.getSubjects().length) {
+			return false;
+		}
+		
+		float sum = 0;
+		for(float w : _weights) {
+			sum += w;
+		}
+		return (sum == 1);
+	}
+	
+	private boolean isWeightsDifferent(float[] _weights)
+	{
+		return !( _weights.equals(Student.getWeights()) );
 	}
 }
