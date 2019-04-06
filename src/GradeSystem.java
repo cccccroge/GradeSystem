@@ -1,3 +1,4 @@
+import java.util.Arrays;
 
 public class GradeSystem {
 	
@@ -31,14 +32,13 @@ public class GradeSystem {
 		grade_data.evalRanks();
 		
 		while(true) {
-			System.out.flush();
 			if (status == Status.START) {
 				showHintStart();
-				String cmd = Main.scannerSysIn.next();
+				String cmd = Main.scannerSysIn.nextLine();
 				handleStartCmd(cmd);
 			} else if (status == Status.SCORE) {
 				showHintScore();
-				String cmd = Main.scannerSysIn.next();
+				String cmd = Main.scannerSysIn.nextLine();
 				handleScoreCmd(cmd);
 			}
 			System.out.print("\n");
@@ -107,6 +107,9 @@ public class GradeSystem {
 		case "5":
 			status = Status.START;
 			break;
+		default:
+			System.out.println("Command " + cmd + " doesn't exist.");
+			handleScoreCmd(Main.scannerSysIn.nextLine());
 		}
 	}
 	
@@ -118,7 +121,7 @@ public class GradeSystem {
 		
 		System.out.println(name + "'s grades are:");
 		for(int i = 0; i < g.length; ++i) {	
-			System.out.println(s[i] + ":\t" + formattedScore(g[i]));
+			System.out.printf("%-15s %s\n", s[i]+":", formattedScore(g[i]));
 		}
 	}
 	
@@ -139,17 +142,16 @@ public class GradeSystem {
 	private void updateWeights()
 	{
 		while(true) {
-			System.out.flush();
 			System.out.println("Current weights:");
 			printWeights(Student.getWeights());
 			
-			System.out.println("Enter new weights:");
-			float[] new_weights = readWeights();
+			System.out.println("\nEnter new weights:");
+			float[] new_weights = readNewWeights();
 			
-			System.out.println("Confirm new weights:");
+			System.out.println("\nConfirm new weights:");
 			printWeights(new_weights);
 			System.out.print("Are the weights above correct? (y/n)\t");
-			String cmd = Main.scannerSysIn.next();
+			String cmd = Main.scannerSysIn.nextLine();
 			if(cmd.equals("Y") || cmd.equals("y")) {
 				Student.setWeights(new_weights);
 				break;
@@ -163,7 +165,7 @@ public class GradeSystem {
 		Student s = grade_data.getStudentById(str);
 		while(s == null) {
 			System.out.println(str + " is a wrong student ID. Please enter again.");
-			str = Main.scannerSysIn.next();
+			str = Main.scannerSysIn.nextLine();
 			s = grade_data.getStudentById(str);
 		}
 		current_student = s;
@@ -180,11 +182,11 @@ public class GradeSystem {
 	{
 		String[] subjects = Student.getSubjects();
 		for(int i = 0; i < _weights.length; ++i) {
-			System.out.println(subjects[i] + "\t" + _weights[i]*100 + "%");
+			System.out.printf("%-15s %.1f%%\n", subjects[i]+":", _weights[i]*100);
 		}
 	}
 	
-	private float[] readWeights()
+	private float[] readNewWeights()
 	{
 		float[] weights ={ -1, -1, -1, -1, -1 };
 		// repeat read process until weights is valid
@@ -193,15 +195,17 @@ public class GradeSystem {
 			// each subject's weight
 			for(int i = 0; i < s.length; ++i) {
 				System.out.print(s[i] + ":\t");
-				String str = "";
-				while(!Main.isDigits(str)) {
-					str = Main.scannerSysIn.next();
+				try {
+					String str = Main.scannerSysIn.nextLine();
+					weights[i] =  Float.parseFloat(str) / 100f;
+				} catch(Exception e) {
+					System.out.println("Weight should be a floating numbers.");
+					i -= 1;
 				}
-				weights[i] = Integer.parseInt(str) / 100.0f;
 			}
 			if(!isWeightsValid(weights)) {
 				System.out.println("Invalid weights. Enter again:");
-			} else if(!isWeightsDifferent(weights)){
+			} else if( Arrays.equals(weights, Student.getWeights()) ){
 				System.out.println("Same weights as before. Enter again:");
 			} else {
 				break;
@@ -222,10 +226,5 @@ public class GradeSystem {
 			sum += w;
 		}
 		return (sum == 1);
-	}
-	
-	private boolean isWeightsDifferent(float[] _weights)
-	{
-		return !( _weights.equals(Student.getWeights()) );
 	}
 }

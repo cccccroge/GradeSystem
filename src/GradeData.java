@@ -34,7 +34,6 @@ public class GradeData {
 			fileScanner.close();
 			return true;
 		} catch (IOException e) {
-			e.printStackTrace();
 			return false;
 		}
 	}
@@ -74,7 +73,7 @@ public class GradeData {
 	// Private Methods
 	private boolean isIdValid(String id)
 	{
-		if (!Main.isDigits(id)) {
+		if (!id.matches("\\d+")) {
 			return false;
 		} else if (id.length() != 9) {
 			return false;

@@ -4,7 +4,7 @@ public class Student implements Comparable<Student> {
 	
 	// Fields
 	private static float[] weights = { 0.2f, 0.2f, 0.2f, 0.2f, 0.2f };
-	private static String[] subjects = { "Lab1", "Lab2", "Lab3", "Midterm exam", 
+	private final static String[] subjects = { "Lab1", "Lab2", "Lab3", "Midterm exam", 
 			"Final exam" };
 	
 	private String id;
