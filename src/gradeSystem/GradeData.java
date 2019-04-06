@@ -1,3 +1,4 @@
+package gradeSystem;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,7 +21,7 @@ public class GradeData {
 	public boolean loadInput()
 	{
 		try {
-			Path path = Paths.get("input.txt") ;		
+			Path path = Paths.get("input.txt");
 			Scanner fileScanner = new Scanner(path, "utf-8");
 			while(fileScanner.hasNextLine())
 			{
@@ -64,9 +65,16 @@ public class GradeData {
 	{
 		Collections.sort(studentList);
 		
-		int total = studentList.size();
-		for(int i = 0; i < total; ++i) {
-			studentList.get(i).setRank(total - i);
+		int rank = 0;
+		Student prev_student = null;
+		for(int i = studentList.size()-1; i != -1; --i) {
+			Student cur_student = studentList.get(i);
+			if(prev_student == null 
+				|| cur_student.getWeightedGrade() != prev_student.getWeightedGrade()) {
+				rank += 1;
+			}
+			cur_student.setRank(rank);
+			prev_student = cur_student;
 		}
 	}
 	
@@ -82,4 +90,9 @@ public class GradeData {
 		}
 	}
 	
+	// Getters & Setters
+	public void setStudentList(ArrayList<Student> _studentList)
+	{
+		studentList = _studentList;
+	}
 }

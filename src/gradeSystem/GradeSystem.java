@@ -1,3 +1,4 @@
+package gradeSystem;
 import java.util.Arrays;
 
 public class GradeSystem {
@@ -22,7 +23,7 @@ public class GradeSystem {
 	}
 	
 	// Public Methods
-	public boolean run()
+	public void run()
 	{
 		while(!grade_data.loadInput()) {
 			System.out.println("Failed to load grades input.\nFix setup and hit enter to try again.");

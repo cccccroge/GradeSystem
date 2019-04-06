@@ -1,4 +1,6 @@
+package gradeSystem;
 import java.lang.Math;
+import java.util.Arrays;
 
 public class Student implements Comparable<Student> {
 	
@@ -26,8 +28,21 @@ public class Student implements Comparable<Student> {
 	
 	// Overrides
 	@Override
-	public int compareTo(Student another) {
+	public int compareTo(Student another)
+	{
 		return this.weightedGrade - another.weightedGrade;
+	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		if((o instanceof Student)) {
+			Student s = (Student)o;
+			return (s.getId().equals(getId())) 
+					&& (s.getName().equals(getName()))
+					&& (Arrays.equals(s.getGrades(), getGrades()));
+		}
+		return false;
 	}
 	
 	// Public Methods
