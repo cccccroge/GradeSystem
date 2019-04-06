@@ -11,19 +11,17 @@ public class Main {
 	// globals
 	public static Scanner scannerSysIn = new Scanner(System.in);
 	
-	// main
+	// Entry Point
     public static void main(String[] args)
-    {	/*
+    {	
 		GradeSystem gradeSystem = new GradeSystem();
 		gradeSystem.run();
-		scannerSysIn.close();*/
-    	try {
-			java.nio.file.Path p = Files.move(Paths.get("input.txt"), Paths.get("../input.txt"), StandardCopyOption.ATOMIC_MOVE);
-			System.out.println(p.toAbsolutePath());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		scannerSysIn.close();
     }
-
+    
+    // Setters for redirect input
+    public static void setScannerSysIn(Scanner scanner)
+    {
+    	scannerSysIn = scanner;
+    }
 }

@@ -14,7 +14,7 @@ import gradeSystem.GradeData;
 public class TestLoadInput {
 
 	@Test
-	public void test()
+	public void test1()
 	{
 		GradeData grade_data = new GradeData();
 		assertTrue(grade_data.loadInput());

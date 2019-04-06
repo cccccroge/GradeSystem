@@ -36,11 +36,13 @@ public class GradeSystem {
 			if (status == Status.START) {
 				showHintStart();
 				String cmd = Main.scannerSysIn.nextLine();
-				handleStartCmd(cmd);
+				if(handleStartCmd(cmd))
+					break;
 			} else if (status == Status.SCORE) {
 				showHintScore();
 				String cmd = Main.scannerSysIn.nextLine();
-				handleScoreCmd(cmd);
+				if(handleScoreCmd(cmd))
+					break;
 			}
 			System.out.print("\n");
 		}
@@ -49,12 +51,12 @@ public class GradeSystem {
 	// Private Methods
 	private void showHintStart()
 	{
-		System.out.println("******************************\n" 
-						 + "Fantastic Console Grade System\n" 
-						 + "******************************");
-		System.out.println("Enter commands:");
-		System.out.println("[ID]: a 9-digits number\n" + 
-						   "K: Kill the program");
+		System.out.print("******************************\n" 
+					   + "Fantastic Console Grade System\n" 
+					   + "******************************\n"
+					   + "Enter commands:\n"
+					   + "[ID]: a 9-digits number\n"
+					   + "K: Kill the program\n");
 	}
 	
 	private void showHintScore()
@@ -72,25 +74,24 @@ public class GradeSystem {
 				+ "K: Kill");
 	}
 	
-	private void handleStartCmd(String cmd)
+	private boolean handleStartCmd(String cmd)
 	{
 		switch(cmd) {
 		case "k":
 		case "K":
-			System.exit(0);
-			break;
+			return true;
 		default:
 			registerId(cmd);
+			return false;
 		}
 	}
 	
-	private void handleScoreCmd(String cmd)
+	private boolean handleScoreCmd(String cmd)
 	{
 		switch(cmd) {
 		case "k":
 		case "K":
-			System.exit(0);
-			break;
+			return true;
 		case "1":
 			showGrades();
 			break;
@@ -112,6 +113,7 @@ public class GradeSystem {
 			System.out.println("Command " + cmd + " doesn't exist.");
 			handleScoreCmd(Main.scannerSysIn.nextLine());
 		}
+		return false;
 	}
 	
 	private void showGrades()
@@ -227,5 +229,10 @@ public class GradeSystem {
 			sum += w;
 		}
 		return (sum == 1);
+	}
+	
+	public GradeData getGradeData()
+	{
+		return grade_data;
 	}
 }
