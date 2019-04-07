@@ -8,6 +8,15 @@ import org.junit.Test;
 
 public class TestGetStudentById {
 
+	/* Unit Test
+	 * 測試 Student GradeData.getStudentById(String id)
+	 */ 
+	
+	/* test1
+	 * 1.不讀入檔案，直接拿id為"10506227"的學生
+	 * 2.因為學號不達9位，預期會得到null
+	 * 3.assert null on s
+	 */
 	@Test
 	public void test1() 
 	{
@@ -16,6 +25,11 @@ public class TestGetStudentById {
 		assertNull(s);
 	}
 	
+	/* test2
+	 * 1.不讀入檔案，直接拿id為"2.718"的學生
+	 * 2.因為學號不是連續整數，預期會得到null
+	 * 3.assert null on s
+	 */
 	@Test
 	public void test2() 
 	{
@@ -24,6 +38,11 @@ public class TestGetStudentById {
 		assertNull(s);
 	}
 	
+	/* test3
+	 * 1.讀入檔案，拿id為"962001051"的學生
+	 * 2.開啟input.txt，查看該學生的資料，並強制建立一個符合該資料的學生
+	 * 3.assert equal on s
+	 */
 	@Test
 	public void test3() 
 	{

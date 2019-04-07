@@ -11,6 +11,15 @@ import gradeSystem.Student;
 
 public class TestUpdateWeightedGrades {
 
+	/* Unit Test
+	 * 測試  void GradeData.updateWeightedGrades()
+	 */
+	
+	/* test1
+	 * 1.加入三個隨意資料的學生，加入grade_data的list後，呼叫grade_data.updateWeightedGrades()
+	 * 2.依據default weights，另外計算三者的加權平均分數
+	 * 3.assert equal on 三位學生的weightedGrade
+	 */
 	@Test
 	public void test1() {
 		GradeData grade_data = new GradeData();
@@ -30,6 +39,13 @@ public class TestUpdateWeightedGrades {
 		assertEquals(expect3, list.get(2).getWeightedGrade());
 	}
 
+	/* test2
+	 * 1.加入三個隨意資料的學生，加入grade_data的list，並
+	 *   更改為新的權重(10%, 5%, 37.5%, 10%, 37.5%)
+	 *   再呼叫grade_data.updateWeightedGrades()
+	 * 2.依據更新後的weights，另外計算三者的加權平均分數
+	 * 3.assert equal on 三位學生的weightedGrade
+	 */
 	@Test
 	public void test2() {
 		GradeData grade_data = new GradeData();

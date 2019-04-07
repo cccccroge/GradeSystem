@@ -12,8 +12,17 @@ import gradeSystem.Student;
 
 public class TestEvalRanks {
 
+	/* Unit Test
+	 * 測試 void GradeData.evalRanks()
+	 */ 
+	
+	/* test1
+	 * 1.隨意新增三位不同分數的學生並放入list中，呼叫grade_data.evalRanks();
+	 * 2.手動算三位學生的平均分並排名
+	 * 3.assert equal on 三位學生的rank
+	 */
 	@Test
-	public void test() {
+	public void test1() {
 		GradeData grade_data = new GradeData();
 		
 		Student s1 = new Student("105062271", "何必問", new int[]{69, 77, 55, 0, 18});
@@ -28,6 +37,11 @@ public class TestEvalRanks {
 		assertEquals(3, s3.getRank());
 	}
 
+	/* test2
+	 * 1.隨意新增三位不同分數，但平均分相同的學生並放入list中，呼叫grade_data.evalRanks();
+	 * 2.三位學生平均分相同，預期三位學生的rank皆為第一
+	 * 3.assert equal on 三位學生的rank
+	 */
 	@Test
 	public void test2() {
 		GradeData grade_data = new GradeData();

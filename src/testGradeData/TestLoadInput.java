@@ -13,6 +13,15 @@ import gradeSystem.GradeData;
 
 public class TestLoadInput {
 
+	/* Unit Test
+	 * 測試  boolean GradeData.loadInput()
+	 */ 
+	
+	/* test1
+	 * 1.直接呼叫grade_data.loadInput()，正常讀入檔案
+	 * 2.不會有exception，預期回傳true
+	 * 3.assert true on return value
+	 */
 	@Test
 	public void test1()
 	{
@@ -20,6 +29,11 @@ public class TestLoadInput {
 		assertTrue(grade_data.loadInput());
 	}
 	
+	/* test2
+	 * 1.強制將檔案移至上一層的位置，再呼叫grade_data.loadInput()
+	 * 2.將會catch exception，預期回傳false
+	 * 3.assert false on return value
+	 */
 	@Test
 	public void test2()
 	{

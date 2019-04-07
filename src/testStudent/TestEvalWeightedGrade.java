@@ -8,6 +8,15 @@ import gradeSystem.Student;
 
 public class TestEvalWeightedGrade {
 
+	/* Unit Test
+	 * 代刚 void Student.evalWeightedGrade()
+	 */
+	
+	/* test1
+	 * 1.ヴ種だ计厩ネ竚static舦20%㊣s.evalWeightedGrade()
+	 * 2.だ计㎝舦璸衡舦だ计
+	 * 3.assert equal on ㄢ
+	 */
 	@Test
 	public void test1()
 	{
@@ -18,6 +27,12 @@ public class TestEvalWeightedGrade {
 		assertEquals(expected, s.getWeightedGrade());
 	}
 
+	/* test2
+	 * 1.ヴ種だ计厩ネэ跑static舦
+	 *   0% 0% 0% 50% 50%㊣s.evalWeightedGrade()
+	 * 2.だ计㎝舦璸衡舦だ计
+	 * 3.assert equal on ㄢ
+	 */
 	@Test
 	public void test2()
 	{
@@ -25,16 +40,6 @@ public class TestEvalWeightedGrade {
 		Student.setWeights(new double[]{0, 0, 0, 0.5, 0.5});
 		s.evalWeightedGrade();
 		int expected = Math.round(18*0.5f);
-		assertEquals(expected, s.getWeightedGrade());
-	}
-	
-	@Test
-	public void test3()
-	{
-		Student s = new Student("985002201", "默獹", new int[]{81, 91, 85, 84, 90});
-		Student.setWeights(new double[]{0.2, 0.2, 0.2, 0.2, 0.2});
-		s.evalWeightedGrade();
-		int expected = 86;
 		assertEquals(expected, s.getWeightedGrade());
 	}
 }
