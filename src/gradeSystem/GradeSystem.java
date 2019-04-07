@@ -23,6 +23,24 @@ public class GradeSystem {
 	}
 	
 	// Public Methods
+	
+	/* void run()
+	 * 運行成績系統，當讀入有效input後進入主系統，供使用者
+	 * 輸入各種指令，並提供相對應功能，當使用者在任意層級輸
+	 * 入指令K之後，才會終止迴圈，結束函式。
+	 * 
+	 * Pseudo code
+	 * 1.重複讀入input檔，直至成功讀取
+	 * 2.以預設的權重計算一次排名
+	 * 3.重複接受指令
+	 *   - 初始狀態：處理初始狀態指令
+	 *   - 查詢狀態：處理查詢狀態指令
+	 *   
+	 * Time estimate：skip
+	 * 
+	 * Example
+	 * GradeSystemObj.run()
+	 */
 	public void run()
 	{
 		while(!grade_data.loadInput()) {
@@ -49,6 +67,20 @@ public class GradeSystem {
 	}
 	
 	// Private Methods
+	
+	/* void showHintStart()
+	 * 顯示初始狀態的提示文字
+	 * 
+	 * Pseudo code
+	 * 顯示初始狀態的提示文字
+	 * - 系統名稱
+	 * - 提示輸入指令：[ID]與K
+	 *   
+	 * Time estimate：O(1)
+	 * 
+	 * Example
+	 * GradeSystemObj.showHintStart()
+	 */
 	private void showHintStart()
 	{
 		System.out.print("******************************\n" 
@@ -59,6 +91,19 @@ public class GradeSystem {
 					   + "K: Kill the program\n");
 	}
 	
+	/* void showHintScore()
+	 * 顯示查詢狀態的提示文字
+	 * 
+	 * Pseudo code
+	 * 顯示查詢狀態的提示文字
+	 * - 查詢之ID
+	 * - 提示輸入指令：1/2/3/4/5/K
+	 *   
+	 * Time estimate：O(1)
+	 * 
+	 * Example
+	 * GradeSystemObj.showHintScore()
+	 */
 	private void showHintScore()
 	{
 		System.out.print("********************************\n" 
@@ -74,6 +119,22 @@ public class GradeSystem {
 				+ "K: Kill\n");
 	}
 	
+	/* boolean handleStartCmd(String cmd)
+	 * 處理初始狀態之使用者輸入指令
+	 * @param cmd：指令字串
+	 * @return boolean：只在指令為K時才回傳true，其他指令則回傳false
+	 * 
+	 * Pseudo code
+	 * 檢查指令字元
+	 * - k或K：回傳true
+	 * - 其他：視為id，呼叫registerId來處理，最後回傳false
+	 *   
+	 * Time estimate：skip
+	 * 
+	 * Example
+	 * GradeSystemObj.handleStartCmd("K")
+	 * GradeSystemObj.handleStartCmd("105062271")
+	 */
 	private boolean handleStartCmd(String cmd)
 	{
 		switch(cmd) {
@@ -86,6 +147,29 @@ public class GradeSystem {
 		}
 	}
 	
+	/* boolean handleScoreCmd(String cmd)
+	 * 處理查詢狀態之使用者輸入指令
+	 * @param cmd：指令字串
+	 * @return boolean：只在指令為K時才回傳true，其他指令則回傳false
+	 * 
+	 * Pseudo code
+	 * 檢查指令字元
+	 * - k或K：回傳true
+	 *   以下指令最後回傳false
+	 * - 1:呼叫showGrades，顯示目前學生的所有科目成績
+	 * - 2:呼叫showRank，顯示目前學生的的排名
+	 * - 3:呼叫showAverage，顯示目前學生的加權平均分數
+	 * - 4:呼叫updateWeights來提供更新權重之功能，更新完後再對成績資料作加權分數以及排名的更新
+	 * - 5:離開查看目前學生，改變系統狀態為初始狀態
+	 * - 其他指令：顯示輸入錯誤提示，再讀入一次輸入指令
+	 *   
+	 * Time estimate：skip
+	 * 
+	 * Example
+	 * GradeSystemObj.handleScoreCmd("1")
+	 * GradeSystemObj.handleScoreCmd("3")
+	 * GradeSystemObj.handleStartCmd("haha")
+	 */
 	private boolean handleScoreCmd(String cmd)
 	{
 		switch(cmd) {
@@ -116,6 +200,18 @@ public class GradeSystem {
 		return false;
 	}
 	
+	/* void showGrades()
+	 * 顯示目前學生之所有科目分數
+	 * 
+	 * Pseudo code
+	 * 1.存取目前學生的名稱,分數陣列,以及科目名稱陣列
+	 * 2.以迴圈分行輸出各科的成績
+	 *   
+	 * Time estimate：O(1)
+	 * 
+	 * Example
+	 * GradeSystemObj.showGrades()
+	 */
 	private void showGrades()
 	{
 		String name = current_student.getName();
@@ -128,6 +224,18 @@ public class GradeSystem {
 		}
 	}
 	
+	/* void showAverage()
+	 * 顯示目前學生之加權平均數
+	 * 
+	 * Pseudo code
+	 * 1.存取目前學生的名稱,加權平均成績
+	 * 2.輸出該學生的名字與成績
+	 *   
+	 * Time estimate：O(1)
+	 * 
+	 * Example
+	 * GradeSystemObj.showAverage()
+	 */
 	private void showAverage()
 	{
 		String name = current_student.getName();
@@ -135,6 +243,18 @@ public class GradeSystem {
 		System.out.print(name + "'s average is:\t" + average + "\n");
 	}
 	
+	/* void showRank()
+	 * 顯示目前學生之排名
+	 * 
+	 * Pseudo code
+	 * 1.存取目前學生的名稱,加權平均成績
+	 * 2.輸出該學生的名字與成績
+	 *   
+	 * Time estimate：O(1)
+	 * 
+	 * Example
+	 * GradeSystemObj.showAverage()
+	 */
 	private void showRank()
 	{
 		String name = current_student.getName();
