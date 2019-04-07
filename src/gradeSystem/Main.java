@@ -1,10 +1,5 @@
 package gradeSystem;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.Scanner;
-import javafx.scene.shape.Path;
 
 public class Main {
 	
@@ -14,6 +9,23 @@ public class Main {
 	// Entry Point
     public static void main(String[] args)
     {	
+    	/*double[] weights ={ -1, -1, -1, -1, -1 };
+    	String s1 = "30";
+    	String s2 = "30";
+    	String s3 = "15";
+    	String s4 = "15";
+    	String s5 = "10";
+    	weights[0] =  Double.parseDouble(s1) / 100;
+    	weights[1] =  Double.parseDouble(s2) / 100;
+    	weights[2] =  Double.parseDouble(s3) / 100;
+    	weights[3] =  Double.parseDouble(s4) / 100;
+    	weights[4] =  Double.parseDouble(s5) / 100;
+    	double sum = 0;
+		for(double w : weights) {
+			sum += w;
+		}
+    	System.out.println(sum == 1);*/
+    	
 		GradeSystem gradeSystem = new GradeSystem();
 		gradeSystem.run();
 		scannerSysIn.close();

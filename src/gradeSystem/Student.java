@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class Student implements Comparable<Student> {
 	
 	// Fields
-	private static float[] weights = { 0.2f, 0.2f, 0.2f, 0.2f, 0.2f };
+	private static double[] weights = { 0.2f, 0.2f, 0.2f, 0.2f, 0.2f };
 	private final static String[] subjects = { "Lab1", "Lab2", "Lab3", "Midterm exam", 
 			"Final exam" };
 	
@@ -48,11 +48,11 @@ public class Student implements Comparable<Student> {
 	// Public Methods
 	public void evalWeightedGrade()
 	{
-		float sum = 0;
+		double sum = 0;
 		for(int i = 0; i < grades.length; ++i) {
 			sum += (grades[i] * weights[i]);
 		}
-		weightedGrade = Math.round(sum);
+		weightedGrade = (int) Math.round(sum);
 	}
 	
 	// Getters & Setters
@@ -61,7 +61,7 @@ public class Student implements Comparable<Student> {
 		return subjects;
 	}
 	
-	public static float[] getWeights()
+	public static double[] getWeights()
 	{
 		return weights;
 	}
@@ -91,7 +91,7 @@ public class Student implements Comparable<Student> {
 		return rank;
 	}
 	
-	public static void setWeights(float[] _weights)
+	public static void setWeights(double[] _weights)
 	{	
 		weights = _weights;
 	}

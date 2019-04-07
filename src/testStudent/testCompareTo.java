@@ -25,7 +25,7 @@ public class testCompareTo {
 	public void test3() {
 		Student s1 = new Student("962001051", "§õ«Â§Ê", new int[]{80, 80, 80, 80, 80});
 		Student s2 = new Student("962001052", "§õ®z§Ê", new int[]{100, 60, 100, 60, 80});
-		Student.setWeights(new float[]{0.3f, 0.1f, 0.3f, 0.1f, 0.2f});
+		Student.setWeights(new double[]{0.3, 0.1, 0.3, 0.1, 0.2});
 		s1.evalWeightedGrade();
 		s2.evalWeightedGrade();
 		assertTrue(s1.compareTo(s2) < 0);
