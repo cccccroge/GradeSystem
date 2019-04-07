@@ -262,6 +262,21 @@ public class GradeSystem {
 		System.out.print(name + "'s rank is:\t" + rank + "\n");
 	}
 	
+	/* void updateWeights()
+	 * 讓使用者輸入新的權重，以更新所有學生之權重
+	 * 
+	 * Pseudo code
+	 * 持續讀入新的各科權重，直到有一合法且與舊權重不同的權重被確認：
+	 *  - 顯示目前各科權重
+	 *  - 讀取新的且合法的權重
+	 *  - 再輸出一次使用者輸入的權重，詢問是否確定更改：
+	 *    若是則break迴圈, 若否則再重新進入迴圈
+	 *   
+	 * Time estimate：skip
+	 * 
+	 * Example
+	 * GradeSystemObj.updateWeights()
+	 */
 	private void updateWeights()
 	{
 		while(true) {
@@ -282,6 +297,20 @@ public class GradeSystem {
 		}
 	}
 	
+	/* void registerId(String _str)
+	 * 以_str作為指定id，查詢後若合法則將系統的查詢學生指向此找到之學生
+	 * 並將系統狀態切換至查詢狀態，若不合法則持續接受輸入直到找到合法學生
+	 * @param _str：指定id字串
+	 * 
+	 * Pseudo code
+	 * 1.持續呼叫資料中的getStudentById(str)直到找到合法學生
+	 * 2.將系統的查詢學生更改為此學生，將系統狀態切換至查詢狀態
+	 *   
+	 * Time estimate：id存在的情況下為O(n)，n為學生陣列長度
+	 * 
+	 * Example
+	 * GradeSystemObj.registerId("105062271")
+	 */
 	private void registerId(String _str)
 	{
 		String str = _str;
@@ -295,12 +324,40 @@ public class GradeSystem {
 		status = Status.SCORE;
 	}
 	
+	/* String formattedScore(int score)
+	 * 將分數轉換成字串，必要時修改之
+	 * @param score：欲顯示之分數，為整數
+	 * @return String：回傳格式化的字串
+	 * 
+	 * Pseudo code
+	 * 1.將分數轉為String型別
+	 * 2.若分數不及格（小於六十分），則需在後面加上星號字元，反之則否
+	 * 3.回傳該字串
+	 * 
+	 * Time estimate：O(1)
+	 * 
+	 * Example
+	 * String s = GradeSystemObj.formattedScore(59)
+	 */
 	private String formattedScore(int score)
 	{
 		String s = Integer.toString(score);
 		return (score >= 60) ? s : (s+"*");
 	}
 	
+	/* void printWeights(double[] _weights)
+	 * 將給定權重依科目列印出來
+	 * @param _weights：欲印出的分數陣列，型別為double array
+	 * 
+	 * Pseudo code
+	 * 1.取得科目字串陣列
+	 * 2.以迴圈印出對應科目的weight
+	 * 
+	 * Time estimate：O(1)
+	 * 
+	 * Example
+	 * GradeSystemObj.printWeights({0.5, 0.5, 0, 0, 0})
+	 */
 	private void printWeights(double[] _weights)
 	{
 		String[] subjects = Student.getSubjects();
@@ -309,6 +366,23 @@ public class GradeSystem {
 		}
 	}
 	
+	/* double[] readNewWeights()
+	 * 讓使用者輸入權重
+	 * @return double[]：讀入的權重陣列，型別為double array
+	 * 
+	 * Pseudo code
+	 * 1.持續迴圈直到得到一合法權重陣列
+	 *   -印出個科目目前對應的權重
+	 *   -讓使用者輸入五個合法數值，若非法則再輸入一次
+	 *   -檢查此陣列是否合法
+	 *   -檢查此陣列是否跟舊權重陣列不同
+	 * 2.回傳該陣列
+	 * 
+	 * Time estimate：忽略使用者輸入時間，O(1)
+	 * 
+	 * Example
+	 * double[] new_weights = GradeSystemObj.readNewWeights()
+	 */
 	private double[] readNewWeights()
 	{
 		double[] weights ={ -1, -1, -1, -1, -1 };
@@ -338,6 +412,20 @@ public class GradeSystem {
 		return weights;
 	}
 	
+	/* boolean isWeightsValid(double[] _weights)
+	 * 檢查指定權重是否合法
+	 * @param _weights：欲檢查之權重
+	 * @return double[]：讀入的權重陣列，型別為double array
+	 * 
+	 * Pseudo code
+	 * 1.若weights長度與科目不同，回傳false
+	 * 2.加總weights中各元素之值，若恰為1才回傳true，否則回傳false
+	 * 
+	 * Time estimate：O(1)
+	 * 
+	 * Example
+	 * double[] b = GradeSystemObj.isWeightsValid({1, 0})
+	 */
 	private boolean isWeightsValid(double[] _weights)
 	{
 		if(_weights.length != Student.getSubjects().length) {
